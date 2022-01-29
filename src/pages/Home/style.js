@@ -2,14 +2,27 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   background-color: var(--lightBlue);
+  position: relative;
   height: 100vh;
   width: 100vw;
+`;
+
+export const Circle = styled.div`
+  background-color: transparent;
+  position: absolute;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  z-index: 100;
+  top: 0;
+  left: 0;
 `;
 
 export const Wrapper = styled.div`
   height: 100%;
   width: 1200px;
   margin: 0 auto;
+  padding-top: 20px;
 `;
 
 export const Title = styled.div`

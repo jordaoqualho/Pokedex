@@ -1,10 +1,12 @@
-import React from "react";
-import { Container, Wrapper, Title, Search, Button } from "./style";
+import PokemonList from "components/_Home/PokemonList";
 import pokeball from "img/pokeball.png";
+import React from "react";
+import { Button, Circle, Container, Search, Title, Wrapper } from "./style";
 
 const Home = () => {
   return (
     <Container>
+      <Circle />
       <Wrapper>
         <Title className="flex_cs">
           <h1>Pokedex</h1>
@@ -15,6 +17,7 @@ const Home = () => {
             <img src={pokeball} alt="" />
           </Button>
         </Search>
+        <PokemonList></PokemonList>
       </Wrapper>
     </Container>
   );
