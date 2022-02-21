@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Container, List, Pokemon, Tipos } from "./style";
+import { Container, List, Pokemon, Tipos, Tipo } from "./style";
+import { handleCor } from "functions/index";
 import api from "connection/index";
 
-const PokemonList = () => {
+const PokemonList = (props) => {
+  const { termoDeBusca, clicou, setClicou, setPokemonSelecionado } = props;
   const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {
-    getTodosPokemons();
+    getTodosPokemons(termoDeBusca);
   }, []);
 
-  const getTodosPokemons = async () => {
+  useEffect(() => {
+    clicou && getTodosPokemons(termoDeBusca);
+    setClicou(false);
+  }, [clicou]);
+
+  const getTodosPokemons = async (termoDeBusca) => {
     await api
-      .get(`/pokemon`)
+      .get(`/pokemon?nome=${termoDeBusca}`)
       .then((res) => {
         setPokemons(res.data.pokemons);
+        res.data.pokemons.length > 0 &&
+          setPokemonSelecionado(res.data.pokemons[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -23,14 +32,16 @@ const PokemonList = () => {
   return (
     <Container>
       <List className="flex_cc">
-        {pokemons.map((pokemon, index) => (
-          <Pokemon key={index}>
+        {pokemons.slice(0, 6).map((pokemon, index) => (
+          <Pokemon key={index} onClick={() => setPokemonSelecionado(pokemon)}>
             <img src={pokemon.imagem} alt="" />
             <p>N00{pokemon.numero}</p>
             <h1> {pokemon.nome}</h1>
             <Tipos>
               {pokemon.tipo.map((tipo, index) => (
-                <span key={index}>{tipo}</span>
+                <Tipo key={index} cor={() => handleCor(tipo)}>
+                  {tipo}
+                </Tipo>
               ))}
             </Tipos>
           </Pokemon>
